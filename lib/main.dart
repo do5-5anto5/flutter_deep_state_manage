@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_deep_state_manage/pages/my_home_page.dart';
 import 'package:flutter_deep_state_manage/presentation/controllers/theme_controller.dart';
+import 'package:flutter_deep_state_manage/presentation/pages/my_home_page.dart';
 
 void main() {
   runApp(const MyApp());
