@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
       valueListenable: themeController,
       builder: (context, value, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'State Manage',
           theme: value ? ThemeData.dark() : ThemeData.light(),
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: const MyHomePage(title: 'Flutter State Manage'),
         );
       },
     );
