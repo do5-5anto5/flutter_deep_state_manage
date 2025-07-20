@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deep_state_manage/builders/observable_buider.dart';
+import 'package:flutter_deep_state_manage/builders/observable_state_builder.dart';
 import 'package:flutter_deep_state_manage/classes/counter_state.dart';
 
 import 'controllers/state_observable.dart';
@@ -54,11 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          // Como usar o ObservableBuilder e o escutar um estado inteiro (semelhante ao ListenableBuilder
           children: [
             ObservableBuider(
               observable: counterState,
               builder:
-                  (context, child) => Text('Valor do estado: ${counterState.counter}'),
+                  (context, child) =>
+                      Text('Valor do estado: ${counterState.counter}'),
             ),
 
             ElevatedButton(
@@ -67,8 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Incrementar'),
             ),
-            Text(
-              'Valor do estado do StateObservable: ${observableCounter.state}',
+            // Como usar o ObservableStateBuilder e escutar um estado inteiro (semelhante ao ValueListenableBuilder)
+            // Aqui, o buildWhen é usado para determinar se o widget deve ser reconstruído
+            // e o listener é usado para executar uma ação quando o estado muda
+            ObservableStateBuilder(
+              stateObservable: observableCounter,
+              buildWhen: (oldState, newState) {
+                return oldState != newState;
+              },
+              listener: (context, newState) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                if (newState % 2 == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Estado atualizado: $newState'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                }
+              },
+              builder:
+                  (context, state, child) =>
+                      Text('Valor do estado do observableCounter: $state'),
             ),
             ElevatedButton(
               onPressed: () {
