@@ -57,19 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           // Como usar o ObservableBuilder e o escutar um estado inteiro (semelhante ao ListenableBuilder
           children: [
-            ObservableBuider(
-              observable: counterState,
-              builder:
-                  (context, child) =>
-                      Text('Valor do estado: ${counterState.counter}'),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                counterState.increment();
-              },
-              child: Text('Incrementar'),
-            ),
             // Como usar o ObservableStateBuilder e escutar um estado inteiro (semelhante ao ValueListenableBuilder)
             // Aqui, o buildWhen é usado para determinar se o widget deve ser reconstruído
             // e o listener é usado para executar uma ação quando o estado muda
