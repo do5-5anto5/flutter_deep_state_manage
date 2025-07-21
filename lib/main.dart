@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_deep_state_manage/builders/observable_buider.dart';
 import 'package:flutter_deep_state_manage/builders/observable_state_builder.dart';
 import 'package:flutter_deep_state_manage/classes/counter_state.dart';
+import 'package:flutter_deep_state_manage/mixins/chate_state_mixin.dart';
 
 import 'controllers/state_observable.dart';
 
@@ -31,18 +32,17 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with ChangeStateMixin {
   final counterState = CounterState();
   final observableCounter = StateObservable(0);
+  late StateObservable<int> newMixinCounter;
 
   @override
   void initState() {
-    observableCounter.addListener(callback);
+    useChangeState(counterState);
+    useChangeState(observableCounter);
+    newMixinCounter = useStateObservable(0);
     super.initState();
-  }
-
-  void callback() {
-    setState(() {});
   }
 
   @override
@@ -57,45 +57,24 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           // Como usar o ObservableBuilder e o escutar um estado inteiro (semelhante ao ListenableBuilder
           children: [
-            ObservableBuider(
-              observable: counterState,
-              builder:
-                  (context, child) =>
-                      Text('Valor do estado: ${counterState.counter}'),
-            ),
-
+            Text('Valor do counterState: ${counterState.counter}'),
             ElevatedButton(
               onPressed: () {
                 counterState.increment();
               },
               child: Text('Incrementar'),
             ),
-            // Como usar o ObservableStateBuilder e escutar um estado inteiro (semelhante ao ValueListenableBuilder)
-            // Aqui, o buildWhen é usado para determinar se o widget deve ser reconstruído
-            // e o listener é usado para executar uma ação quando o estado muda
-            ObservableStateBuilder(
-              stateObservable: observableCounter,
-              buildWhen: (oldState, newState) {
-                return oldState != newState;
-              },
-              listener: (context, newState) {
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                if (newState % 2 == 0) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Estado atualizado: $newState'),
-                      duration: Duration(seconds: 1),
-                    ),
-                  );
-                }
-              },
-              builder:
-                  (context, state, child) =>
-                      Text('Valor do estado do observableCounter: $state'),
-            ),
+            Text('Valor do observableCounter: ${observableCounter.state}'),
             ElevatedButton(
               onPressed: () {
                 observableCounter.state++;
+              },
+              child: Text('Incrementar'),
+            ),
+            Text('Valor do newMixinCounter: ${newMixinCounter.state}'),
+            ElevatedButton(
+              onPressed: () {
+                newMixinCounter.state++;
               },
               child: Text('Incrementar'),
             ),
@@ -103,11 +82,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    observableCounter.removeListener(callback);
-    super.dispose();
   }
 }
