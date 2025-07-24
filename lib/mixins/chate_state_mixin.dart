@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_shadowing_type_parameters
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_deep_state_manage/controllers/change_state.dart';
 import 'package:flutter_deep_state_manage/controllers/state_observable.dart';

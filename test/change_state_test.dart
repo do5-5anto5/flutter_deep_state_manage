@@ -1,11 +1,12 @@
-import 'package:flutter_deep_state_manage/controllers/change_state.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'testable/controllers/counter_change_state.dart';
 
 void main() {
   group('Should Test ChangeState', () {
     test('Should increment counter', () {
       //Arrange
-      final _CounterChangeState changeState = _CounterChangeState();
+      final CounterChangeState changeState = CounterChangeState();
       //Act
       changeState.increment();
       //Assert
@@ -14,7 +15,7 @@ void main() {
     test('Should execute callback', () {
       //Arrange
       bool isCallbackExecuted = false;
-      final _CounterChangeState changeState = _CounterChangeState();
+      final CounterChangeState changeState = CounterChangeState();
 
       void callback() {
         isCallbackExecuted = true;
@@ -29,13 +30,4 @@ void main() {
       expect(isCallbackExecuted, true);
     });
   });
-}
-
-class _CounterChangeState extends ChangeState {
-  int counter = 0;
-
-  void increment() {
-    counter++;
-    notifyCallback();
-  }
 }

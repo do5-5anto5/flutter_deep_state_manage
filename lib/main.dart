@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_deep_state_manage/builders/observable_buider.dart';
-import 'package:flutter_deep_state_manage/builders/observable_state_builder.dart';
 import 'package:flutter_deep_state_manage/classes/counter_state.dart';
+import 'package:flutter_deep_state_manage/extensions/state_observable_extensions.dart';
 import 'package:flutter_deep_state_manage/mixins/chate_state_mixin.dart';
 
 import 'controllers/state_observable.dart';

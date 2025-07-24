@@ -32,7 +32,6 @@ class _ObservableStateBuilderState<T> extends State<ObservableStateBuilder<T>> {
   }
 
   void callback() {
-    print(shouldRebuild());
     if (shouldRebuild()) {
       state = widget.stateObservable.state;
       if (widget.listener != null) {
